@@ -3,20 +3,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t AndreaBettelli/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t andreabettelli/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run AndreaBettelli/react-test npm test -- --coverage
+  - docker run andreabettelli/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t AndreaBettelli/multi-client ./client
-  - docker build -t AndreaBettelli/multi-nginx ./nginx
-  - docker build -t AndreaBettelli/multi-server ./server
-  - docker build -t AndreaBettelli/multi-worker ./worker
+  - docker build -t andreabettelli/multi-client ./client
+  - docker build -t andreabettelli/multi-nginx ./nginx
+  - docker build -t andreabettelli/multi-server ./server
+  - docker build -t andreabettelli/multi-worker ./worker
   # Log in to the Docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to Docker Hub.
-  - docker push AndreaBettelli/multi-client
-  - docker push AndreaBettelli/multi-nginx
-  - docker push AndreaBettelli/multi-server
-  - docker push AndreaBettelli/multi-worker
+  - docker push andreabettelli/multi-client
+  - docker push andreabettelli/multi-nginx
+  - docker push andreabettelli/multi-server
+  - docker push andreabettelli/multi-worker
