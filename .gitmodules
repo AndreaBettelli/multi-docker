@@ -1,3 +1,0 @@
-[submodule "client"]
-	path = client
-	url = https://github.com/AndreaBettelli/multi-docker-client.git
