@@ -3,10 +3,10 @@ services:
   - docker
 
 before_install:
-  - docker build -t andreabettelli/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t andreabettelli/client-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run andreabettelli/react-test npm test -- --coverage
+  - docker run andreabettelli/client-test npm test -- --coverage
 
 after_success:
   - docker build -t andreabettelli/multi-client ./client
