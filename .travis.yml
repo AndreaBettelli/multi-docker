@@ -10,14 +10,20 @@ before_install:
   - docker build -t andreabettelli/client-test -f ./client/Dockerfile.dev ./client
 
 script:
+  # senza il --coverage 'npm test' entrerebbe in watch mode e non terminerebbe mai.
   - docker run andreabettelli/client-test npm test -- --coverage
 
+# se tutto va bene, cominciamo a costruire la versione di produzione
+# e per questo motivo non specifichiamo il Dockerfile con -f, cosi' usa
+# il Dockerfile di default (quello senza estensione)
 after_success:
   - docker build -t andreabettelli/multi-client ./client
   - docker build -t andreabettelli/multi-nginx ./nginx
   - docker build -t andreabettelli/multi-server ./server
   - docker build -t andreabettelli/multi-worker ./worker
-  # Log in to the Docker CLI
+  # Push off every image to DockerHub. To do that we need to log in to the Docker CLI.
+  # The "Linux shell script" with Travis's Environment Variables is the only way 
+  # in Travis CI to pass secret information without exposing it. 
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to Docker Hub.
   - docker push andreabettelli/multi-client
